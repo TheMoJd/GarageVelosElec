@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Garage2.iml" filepath="$PROJECT_DIR$/Garage2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/GarageVelosElec.iml" filepath="$PROJECT_DIR$/GarageVelosElec.iml" />
     </modules>
   </component>
 </project>
