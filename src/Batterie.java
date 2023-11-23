@@ -8,20 +8,20 @@ public class Batterie extends Marque {
   /**
    * Constructeur.
    *
-   * @param puissance puissance de la batterie.
    * @param nomMarque nom de la marque de la batterie.
    * */
 
-  public Batterie(Integer puissance, String nomMarque) {
+  public Batterie(String nomMarque) {
     super(nomMarque);
-    this.puissance = puissance;
   }
 
   public Integer getPuissance() {
     return this.puissance;
   }
 
-  public void setPuissance(Integer puissance) {
+  public boolean setPuissance(Integer puissance) {
+    if(puissance == null) return false;
     this.puissance = puissance;
+    return true;
   }
 }

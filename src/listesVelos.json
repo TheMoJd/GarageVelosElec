@@ -1,0 +1,40 @@
+{
+  "velos": [
+    {
+      "modele": "VTT Explorer",
+      "numSerie": 1001,
+      "pneuAvant": {
+        "largeur": 24,
+        "contientChambre": true,
+        "marque": "Michelin"
+      },
+      "pneuArriere": {
+        "largeur": 24,
+        "contientChambre": true,
+        "marque": "Michelin"
+      },
+      "batterie": {
+        "puissance": 500,
+        "marque": "Duracell"
+      }
+    },
+    {
+      "modele": "Route Speedster",
+      "numSerie": 1002,
+      "pneuAvant": {
+        "largeur": 22,
+        "contientChambre": false,
+        "marque": "Continental"
+      },
+      "pneuArriere": {
+        "largeur": 22,
+        "contientChambre": false,
+        "marque": "Continental"
+      },
+      "batterie": {
+        "puissance": 450,
+        "marque": "Energizer"
+      }
+    }
+  ]
+}

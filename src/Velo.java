@@ -65,4 +65,14 @@ public class Velo {
   public void setNumSerie(Integer numSerie) {
     this.numSerie = numSerie;
   }
+  public void afficherVelo(Velo v){
+    if (v == null) {
+      System.out.println("Erreur dans les paramètres données du vélo");
+    } else {
+      System.out.print("Nouveau vélo crée(" + v.getModele() + " " + v.getNumSerie() + ")" + " :\n Marque : " + v.getBatterie().getMarque() + "\n");
+      System.out.println("Pneus Avant: de largeur " + v.getPneuAv().getLargeur() + "mm" + (v.getPneuAv().getContientChambre() ? " qui contiennent des chambres" : "qui ne contiennent pas des chambres"));
+      System.out.println("Batterie : " + v.getBatterie().getPuissance() + "Ah");
+      System.out.println("Pneus Arrière : de largeur " + v.getPneuAr().getLargeur() + "mm" + (v.getPneuAr().getContientChambre() ? " qui contiennent des chambres" : "qui ne contiennent pas des chambres"));
+    }
+  }
 }
