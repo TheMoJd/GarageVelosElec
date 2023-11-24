@@ -2,7 +2,7 @@
  * Classe Pneu représentant un pneu de vélo.
  * Cette classe contient des informations sur la largeur du pneu et si le pneu est tubeless ou non.
  */
-public class Pneu extends Marque {
+public class Pneu extends Marque implements Visitable{
   private Integer largeur;
   private Boolean contientChambre;
 
@@ -19,6 +19,10 @@ public class Pneu extends Marque {
     this.contientChambre = contientChambre;
   }
 
+  private Pneu(){
+    super("");
+  }
+
   public Integer getLargeur() {
     return largeur;
   }
@@ -33,5 +37,10 @@ public class Pneu extends Marque {
 
   public void setContientChambre(Boolean contientChambre) {
     this.contientChambre = contientChambre;
+  }
+
+  @Override
+  public void accept(Visiteur visiteur) {
+    visiteur.visiter(this);
   }
 }

@@ -14,6 +14,10 @@ public class Batterie extends Marque {
   public Batterie(String nomMarque) {
     super(nomMarque);
   }
+  public Batterie(){
+    super("");
+
+  }
 
   public Integer getPuissance() {
     return this.puissance;
@@ -23,5 +27,9 @@ public class Batterie extends Marque {
     if(puissance == null) return false;
     this.puissance = puissance;
     return true;
+  }
+
+  public void accept(Visiteur visiteur) {
+    visiteur.visiter(this);
   }
 }

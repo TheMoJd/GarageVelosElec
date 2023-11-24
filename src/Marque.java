@@ -7,7 +7,9 @@ public class Marque {
   public Marque(String marque) {
     this.marque = marque;
   }
+  private Marque(){
 
+  }
   public String getMarque() {
     return marque;
   }

@@ -1,7 +1,7 @@
 /**
  * classe Velo.
  * */
-public class Velo {
+public class Velo implements Visitable{
   private String modele;
   private Integer numSerie;
   private Pneu pneuAv;
@@ -49,6 +49,12 @@ public class Velo {
     this.pneuAr = pneuAr;
     this.batterie = b;
   }
+  /**
+   * Constructeur vide pour JSON.
+   * */
+
+  private Velo(){
+  }
 
   public String getModele() {
     return modele;
@@ -69,10 +75,21 @@ public class Velo {
     if (v == null) {
       System.out.println("Erreur dans les paramètres données du vélo");
     } else {
-      System.out.print("Nouveau vélo crée(" + v.getModele() + " " + v.getNumSerie() + ")" + " :\n Marque : " + v.getBatterie().getMarque() + "\n");
-      System.out.println("Pneus Avant: de largeur " + v.getPneuAv().getLargeur() + "mm" + (v.getPneuAv().getContientChambre() ? " qui contiennent des chambres" : "qui ne contiennent pas des chambres"));
-      System.out.println("Batterie : " + v.getBatterie().getPuissance() + "Ah");
-      System.out.println("Pneus Arrière : de largeur " + v.getPneuAr().getLargeur() + "mm" + (v.getPneuAr().getContientChambre() ? " qui contiennent des chambres" : "qui ne contiennent pas des chambres"));
+      System.out.println();
+      System.out.print("Vélo (" + v.getNumSerie() + " "  + v.getModele() +  ")" + "\n");
+      System.out.println("Pneus Avant: largeur " + v.getPneuAv().getLargeur() + "mm" + (v.getPneuAv().getContientChambre() ? " et contiennent chambre" : " ne contiennent pas de chambre") + ", marque : " + v.getPneuAv().getMarque());
+      System.out.println("Batterie : " + v.getBatterie().getPuissance() + "Ah" + ", marque : " + v.getBatterie().getMarque());
+      System.out.println("Pneu Arrière : largeur " + v.getPneuAr().getLargeur() + "mm" + (v.getPneuAr().getContientChambre() ? " et contiennent chambre" : " ne contiennent pas de chambre") + ", marque : " + v.getPneuAr().getMarque());
+      System.out.println();
     }
+  }
+
+  @Override
+  public void accept(Visiteur visiteur) {
+    visiteur.visiter(this);
+    // Assurez-vous également de visiter les composants du vélo
+    this.batterie.accept(visiteur);
+    this.pneuAv.accept(visiteur);
+    this.pneuAr.accept(visiteur);
   }
 }

@@ -140,7 +140,7 @@ public class GarageVelo {
     return VerifVelo.verifVelo(v);
   }
 
-  /*public void chargerVelosDepuisFichier(String cheminFichier) {
+  public void chargerVelosDepuisFichier(String cheminFichier) {
     ListVelosFactory factory = new ListVelosFactory();
     List<Velo> velosLus = factory.creerVelosDepuisFichier(cheminFichier);
     for (Velo velo : velosLus) {
@@ -148,14 +148,22 @@ public class GarageVelo {
         this.velos.put(velo.getNumSerie(), velo);
       }
     }
-  }*/
+  }
   /**
-   * Affiche tous les vélos existant dans le garage*/
-  public void afficherListVelos(){
-    for (Velo v : velos.values()){
-      v.afficherVelo(v);
-    }
+   * Affiche tous les vélos existant dans le garage.
+   * Méthode utiliser pour affichage des vélos avant la question 5  */
 
-    //System.out.println("Les vélos de la factory de marque " + this.veloFactory.getMarque() + " a " + this.veloFactory.getNbVelosCrees() + " velo dans son garage");
+  public void afficherListVelos(){
+    System.out.println("Liste de vélos : ");
+    for (Velo v : this.velos.values()){
+      v.afficherVelo(v);
+      System.out.println();
+    }
+  }
+
+  public void afficherVelos(Visiteur visiteur){
+    for(Velo velo : this.velos.values()){
+      velo.accept(visiteur);
+    }
   }
 }
