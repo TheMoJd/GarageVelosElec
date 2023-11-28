@@ -2,8 +2,11 @@ package Tests;
 
 import Facade.GarageVelo;
 import Factory.VeloFactory;
+import Modele.Velo;
 import Visiteur.VisiteurAffichageDetaille;
 import Visiteur.VisiteurAffichageSimple;
+import Vues.VueListeVelo;
+import Vues.VueVelo;
 
 import java.io.IOException;
 
@@ -11,11 +14,10 @@ public class Main {
   public static void main(String[] args) throws IOException {
     VeloFactory factory = new VeloFactory("Nike", 30);
     GarageVelo garageVelo = new GarageVelo(factory);
-
     /*
     Test question 3
     // Test d'ajout d'un vélo
-    Modele.Velo v1 = garageVelo.ajouterVelo("V11", 143, true, 50);
+    Velo v1 = garageVelo.ajouterVelo("V11", 143, true, 50);
     if (v1 != null) {
       System.out.println("Vélo ajouté avec succès.");
     } else {
@@ -46,7 +48,7 @@ public class Main {
     */
     /*  Test question 4 : fichier JSON
     // Test d'ajout d'un vélo avec un numéro de série en double
-    Modele.Velo v2 = garageVelo.ajouterVelo("V12", 143, false, 45);
+    Velo v2 = garageVelo.ajouterVelo("V12", 143, false, 45);
     if (v2 == null) {
       System.out.println("Échec de l'ajout du vélo avec un numéro de série en double.");
     }
@@ -79,6 +81,10 @@ public class Main {
     System.out.println("------------------------------------");
     System.out.println("Affichage Détaillé : ");
     garageVelo.afficherVelos(new VisiteurAffichageDetaille());
+
+
+
+
 
   }
 }

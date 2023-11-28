@@ -76,9 +76,16 @@ public class Velo implements Visitable {
   public void setNumSerie(Integer numSerie) {
     this.numSerie = numSerie;
   }
-  /**
-   * Méthode de tests utilisé au début du projet pour afficher un vélo.
-   * @param v un vélo*/
+
+  @Override
+  public String toString() {
+    return "<html>Vélo Modèle: " + this.modele +
+            ", Numéro de Série: " + this.numSerie +
+            "<br/>Pneus Avant: largeur " + this.getPneuAv().getLargeur() + "mm" + (this.getPneuAv().getContientChambre() ? ", contiennent chambre" : ", ne contiennent pas de chambre") + ", marque : " + this.getPneuAv().getMarque() +
+            "<br/>Pneu Arrière: largeur " + this.getPneuAr().getLargeur() + "mm" + (this.getPneuAr().getContientChambre() ? ", contiennent chambre" : ", ne contiennent pas de chambre") + ", marque : " + this.getPneuAr().getMarque() +
+            "<br/>Batterie: " + this.getBatterie().getPuissance() + "Ah, marque : " + this.getBatterie().getMarque() +
+            "</html>";
+  }
 
 
 
@@ -86,10 +93,9 @@ public class Velo implements Visitable {
     System.out.println();
     System.out.print("Vélo (" + this.getNumSerie() + " "  + this.getModele() +  ")" + "\n");
     System.out.println("Pneus Avant: largeur " + this.getPneuAv().getLargeur() + "mm" + (this.getPneuAv().getContientChambre() ? " et contiennent chambre" : " ne contiennent pas de chambre") + ", marque : " + this.getPneuAv().getMarque());
-    System.out.println("Modele.Batterie : " + this.getBatterie().getPuissance() + "Ah" + ", marque : " + this.getBatterie().getMarque());
-    System.out.println("Modele.Pneu Arrière : largeur " + this.getPneuAr().getLargeur() + "mm" + (this.getPneuAr().getContientChambre() ? " et contiennent chambre" : " ne contiennent pas de chambre") + ", marque : " + this.getPneuAr().getMarque());
+    System.out.println("Batterie : " + this.getBatterie().getPuissance() + "Ah" + ", marque : " + this.getBatterie().getMarque());
+    System.out.println("Pneu Arrière : largeur " + this.getPneuAr().getLargeur() + "mm" + (this.getPneuAr().getContientChambre() ? " et contiennent chambre" : " ne contiennent pas de chambre") + ", marque : " + this.getPneuAr().getMarque());
     System.out.println();
-
   }
 
   @Override

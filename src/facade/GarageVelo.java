@@ -7,8 +7,11 @@ import Modele.Velo;
 import Visiteur.Visiteur;
 import Visiteur.Visitable;
 import Verification.VerifVelo;
+import observer.Observer;
+import observer.Subject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,10 +20,14 @@ import java.util.Map;
  * Façade pour la gestion d'un ensemble de vélos.
  * Fournit des opérations CRUD pour les vélos ainsi que des méthodes de vérification.
  */
-public class GarageVelo {
+public class GarageVelo implements Subject {
 
   private Map<Integer, Velo> velos;
   private VeloFactory veloFactory;
+  private List<Observer> observers = new ArrayList<>();
+  private Velo veloSelectionne;
+
+
 
   /**
    * Constructeur du GarageAVelo.
@@ -30,6 +37,15 @@ public class GarageVelo {
   public GarageVelo(VeloFactory veloFactory) {
     this.velos = new HashMap<>();
     this.veloFactory = veloFactory;
+  }
+
+  public void setVeloSelectionne(Velo velo) {
+    this.veloSelectionne = velo;
+    notifierObservateurs();
+  }
+
+  public Velo getVeloSelectionne() {
+    return veloSelectionne;
   }
 
   /**
@@ -86,18 +102,15 @@ public class GarageVelo {
    * Met à jour les caractéristiques du pneu avant d'un vélo spécifique.
    *
    * @param numSerie Le numéro de série du vélo à mettre à jour.
-   * @param nouvLargeur La nouvelle largeur du pneu avant. Si null, la largeur n'est pas modifiée.
    * @param nouvContientChambre Indique si le nouveau pneu avant est tubeless. Si null, cette caractéristique n'est pas modifiée.
-   * @param nouvMarquePneu La nouvelle marque du pneu avant. Si null, la marque n'est pas modifiée.
    * @return true si la mise à jour a réussi, false sinon.
    */
 
-  public boolean mettreAJourPneusAvant(Integer numSerie, Integer nouvLargeur, Boolean nouvContientChambre, String nouvMarquePneu) {
+  public boolean mettreAJourPneusAvant(Integer numSerie, Boolean nouvContientChambre) {
     Velo velo = velos.get(numSerie);
     if (velo != null) {
-      if(nouvMarquePneu != null || nouvContientChambre != null || nouvLargeur != null) {
-        VeloFactory factory = new VeloFactory(nouvMarquePneu, nouvLargeur);
-        Pneu nouveauPneuAv = factory.creerPneu(nouvContientChambre);
+      if(nouvContientChambre != null ) {
+        Pneu nouveauPneuAv = this.veloFactory.creerPneu(nouvContientChambre);
         velo.setPneuAv(nouveauPneuAv);
         return true;
       }
@@ -109,18 +122,15 @@ public class GarageVelo {
    * Met à jour les caractéristiques du pneu arrière d'un vélo spécifique.
    *
    * @param numSerie Le numéro de série du vélo à mettre à jour.
-   * @param nouvLargeur La nouvelle largeur du pneu arrière. Si null, la largeur n'est pas modifiée.
    * @param nouvContientChambre Indique si le nouveau pneu arrière est tubeless. Si null, cette caractéristique n'est pas modifiée.
-   * @param nouvMarquePneu La nouvelle marque du pneu arrière. Si null, la marque n'est pas modifiée.
    * @return true si la mise à jour a réussi, false sinon.
    */
 
-  public boolean mettreAJourPneusArriere(Integer numSerie, Integer nouvLargeur, Boolean nouvContientChambre, String nouvMarquePneu) {
+  public boolean mettreAJourPneusArriere(Integer numSerie, Boolean nouvContientChambre) {
     Velo velo = velos.get(numSerie);
     if (velo != null) {
-      if(nouvMarquePneu != null || nouvContientChambre != null) {
-        VeloFactory factory = new VeloFactory(nouvMarquePneu, nouvLargeur);
-        Pneu nouveauPneuAr = factory.creerPneu(nouvContientChambre);
+      if( nouvContientChambre != null) {
+        Pneu nouveauPneuAr = this.veloFactory.creerPneu(nouvContientChambre);
         velo.setPneuAr(nouveauPneuAr);
         return true;
       }
@@ -175,11 +185,33 @@ public class GarageVelo {
   /**
    * Affiche tous les vélos existant dans le garage.
    * Méthode utiliser pour affichage des vélos après la question 5
-   * */
+   * @param visiteur le visiteur.
+   * @return rien.*/
 
   public void afficherVelos(Visiteur visiteur){
     for(Velo velo : this.velos.values()){
       velo.accept(visiteur);
+    }
+  }
+
+  public Map<Integer, Velo> getVelos() {
+    return this.velos;
+  }
+
+  @Override
+  public void addObserver(Observer o) {
+    this.observers.add(o);
+  }
+
+  @Override
+  public void removeObserver(Observer o) {
+    this.observers.remove(o);
+  }
+
+  @Override
+  public void notifierObservateurs() {
+    for(Observer observer : observers){
+      observer.update();
     }
   }
 }
