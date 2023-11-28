@@ -5,7 +5,6 @@ import Factory.VeloFactory;
 import Modele.Pneu;
 import Modele.Velo;
 import Visiteur.Visiteur;
-import Visiteur.Visitable;
 import Verification.VerifVelo;
 import observer.Observer;
 import observer.Subject;
@@ -67,7 +66,6 @@ public class GarageVelo implements Subject {
     }
     return null;
   }
-
   /**
    * Récupère un vélo par son numéro de série.
    *
@@ -86,15 +84,12 @@ public class GarageVelo implements Subject {
    * @param nouvMarqueBatterie La nouvelle marque de la batterie. Si null, la marque n'est pas modifiée.
    * @return true si la mise à jour a réussi, false si le vélo n'existe pas ou si les paramètres ne sont pas fournis.
    */
-
   public boolean mettreAJourBatterieVelo(Integer numSerie, Integer nouvPuissance, String nouvMarqueBatterie) {
     Velo velo = this.velos.get(numSerie);
     if (velo != null){
-      if (nouvPuissance != null || nouvMarqueBatterie != null) {
-        velo.getBatterie().setPuissance(nouvPuissance);
-        velo.getBatterie().setMarque(nouvMarqueBatterie);
-        return true;
-      }
+      velo.getBatterie().setPuissance(nouvPuissance);
+      velo.getBatterie().setMarque(nouvMarqueBatterie);
+      return true;
     }
     return false;
   }
@@ -109,7 +104,7 @@ public class GarageVelo implements Subject {
   public boolean mettreAJourPneusAvant(Integer numSerie, Boolean nouvContientChambre) {
     Velo velo = velos.get(numSerie);
     if (velo != null) {
-      if(nouvContientChambre != null ) {
+      if(nouvContientChambre != null) {
         Pneu nouveauPneuAv = this.veloFactory.creerPneu(nouvContientChambre);
         velo.setPneuAv(nouveauPneuAv);
         return true;
@@ -152,11 +147,11 @@ public class GarageVelo implements Subject {
   }
 
   /**
-   * Vérifie si tous les vélos du garage sont conformes aux critères de validation.
+   * Vérifie si un velo du garage est conforme aux critères de validation.
    *
    * @return true si tous les vélos sont valides, false sinon.
    */
-  public String verifierVelos(Integer numSerie) {
+  public String verifierVelo(Integer numSerie) {
     Velo v = this.velos.get(numSerie);
     return VerifVelo.verifVelo(v);
   }

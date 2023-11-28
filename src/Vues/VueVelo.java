@@ -56,8 +56,14 @@ public class VueVelo implements Observer {
           int puissance = Integer.parseInt(txtPuissanceBatterie.getText());
           boolean contientChambre = chkContientChambre.isSelected();
           String marqueBatterie = txtMarqueBatterie.getText();
-          // Utiliser les méthodes de GarageVelo pour mettre à jour le vélo
-          garage.mettreAJourBatterieVelo(veloCourant.getNumSerie(), puissance, marqueBatterie);
+
+          // Vérifier si la chaîne n'est pas vide et contient uniquement des lettres (et des espaces)
+          if (marqueBatterie != null && marqueBatterie.matches("[a-zA-Z]+")) {
+            // Utiliser les méthodes de GarageVelo pour mettre à jour le vélo
+            garage.mettreAJourBatterieVelo(veloCourant.getNumSerie(), puissance, marqueBatterie);
+          } else {
+            JOptionPane.showMessageDialog(frame, "La marque de la batterie ne peut pas être vide.");
+          }
           garage.mettreAJourPneusAvant(veloCourant.getNumSerie(),  contientChambre); // la largeur et la marque des pneus ne changent pas
           garage.mettreAJourPneusArriere(veloCourant.getNumSerie(), contientChambre); // la largeur et la marque des pneus ne changent pas
 

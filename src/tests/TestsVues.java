@@ -18,5 +18,4 @@ public class TestsVues {
     VueListeVelo vueListeVelo = new VueListeVelo(garageVelo);
     VueVelo vueVelo = new VueVelo(garageVelo);
   }
-
 }
