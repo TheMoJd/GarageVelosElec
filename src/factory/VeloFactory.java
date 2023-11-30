@@ -1,19 +1,21 @@
-package Factory;
+package factory;
 
-import Modele.Batterie;
-import Modele.Pneu;
-import Modele.Velo;
-import Verification.VerifVelo;
+import modele.Batterie;
+import modele.Pneu;
+import modele.Velo;
+import verification.VerifVelo;
 
 /**
- * Classe Factory.VeloFactory. Les pneus d'un vélo possédent la même largeur de pneu et la même marque. La marque de la
- * batterie d'un vélo est la même aussi. Donc ces derniers sont des attribut privés appartenant à la Factory déja déterminé.
- *
- * */
+ * Classe Factory.VeloFactory.
+ * Les pneus d'un vélo possédent la même largeur de pneu et la même marque. La marque de la
+ * batterie d'un vélo est la même aussi. Donc ces derniers sont des attribut privés appartenant
+ * à la Factory déja déterminé.
+ */
 public class VeloFactory {
   private int nbVelosCrees = 0;
   private String marque;
   private final Integer largeurPneu;
+
   /**
    * Constructeur.
    *
@@ -28,6 +30,7 @@ public class VeloFactory {
   public int getNbVelosCrees() {
     return nbVelosCrees;
   }
+
   /**
    * Crée un pneu avec la marque et la largeur spécifiées.
    *
@@ -49,18 +52,20 @@ public class VeloFactory {
   }
 
   /**
-   * @param modele le modèle du vélo
-   * @param numSerie le numéro de série
-   * @param contientChambre Indique si les pneus du vélo sont tubeless ou non.
-   * @param puissanceBatterie La puissance de la batterie du vélo.
+   * Crée un vélo.
    *
-   * @return un vélo
-   * */
-  public Velo creerVelo(String modele, Integer numSerie, Boolean contientChambre, Integer puissanceBatterie) {
+   * @param modele            le modèle du vélo.
+   * @param numSerie          le numéro de série.
+   * @param contientChambre   Indique si les pneus du vélo sont tubeless ou non.
+   * @param puissanceBatterie La puissance de la batterie du vélo.
+   * @return un vélo.
+   */
+  public Velo creerVelo(String modele, Integer numSerie, Boolean contientChambre,
+                        Integer puissanceBatterie, String marqueVelo) {
     Pneu pneuAv = creerPneu(contientChambre);
-    Pneu pneuArr = creerPneu(contientChambre);
+    Pneu pneuAr = creerPneu(contientChambre);
     Batterie b = creerBatterie(puissanceBatterie);
-    Velo v = new Velo(modele, numSerie, pneuAv, pneuArr, b);
+    Velo v = new Velo(modele, numSerie, pneuAv, pneuAr, b, marqueVelo);
     if (VerifVelo.verifVelo(v).equals("Le vélo est correctement configuré.")) {
       this.nbVelosCrees++;
     } else {

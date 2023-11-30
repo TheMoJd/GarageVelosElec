@@ -1,5 +1,9 @@
 package observer;
 
+/**
+ * Interface Subject.
+ * */
+
 public interface Subject {
   void addObserver(Observer o);
 

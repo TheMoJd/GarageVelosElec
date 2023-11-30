@@ -1,19 +1,19 @@
-package Facade;
+package facade;
 
-import Factory.ListVelosFactory;
-import Factory.VeloFactory;
-import Modele.Pneu;
-import Modele.Velo;
-import Visiteur.Visiteur;
-import Verification.VerifVelo;
-import observer.Observer;
-import observer.Subject;
-
+import factory.ListVelosFactory;
+import factory.VeloFactory;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import modele.Pneu;
+import modele.Velo;
+import observer.Observer;
+import observer.Subject;
+import verification.VerifVelo;
+import visiteur.Visiteur;
+
 
 /**
  * Façade pour la gestion d'un ensemble de vélos.
@@ -21,11 +21,10 @@ import java.util.Map;
  */
 public class GarageVelo implements Subject {
 
-  private Map<Integer, Velo> velos;
-  private VeloFactory veloFactory;
-  private List<Observer> observers = new ArrayList<>();
+  private final Map<Integer, Velo> velos;
+  private final VeloFactory veloFactory;
+  private final List<Observer> observers = new ArrayList<>();
   private Velo veloSelectionne;
-
 
 
   /**
@@ -44,28 +43,36 @@ public class GarageVelo implements Subject {
   }
 
   public Velo getVeloSelectionne() {
-    return veloSelectionne;
+    return this.veloSelectionne;
   }
 
   /**
    * Crée et ajoute un vélo au garage.
    *
-   * @param modele Le modèle du vélo.
-   * @param numSerie Le numéro de série du vélo.
-   * @param contientChambre Si les pneus sont tubeless ou non.
+   * @param modele            Le modèle du vélo.
+   * @param numSerie          Le numéro de série du vélo.
+   * @param contientChambre   Si les pneus sont tubeless ou non.
    * @param puissanceBatterie La puissance de la batterie.
    * @return Le vélo créé ou null si la création échoue.
    */
-  public Velo ajouterVelo(String modele, Integer numSerie, Boolean contientChambre, Integer puissanceBatterie) {
+  public Velo ajouterVelo(String modele, Integer numSerie, Boolean contientChambre,
+                          Integer puissanceBatterie,
+                          String marqueBattrie, String marquePneu,
+                          String marqueVelo, Integer largeurPneus) {
     if (!velos.containsKey(numSerie)) {
-      Velo velo = veloFactory.creerVelo(modele, numSerie, contientChambre, puissanceBatterie);
-      if (velo != null) {
-        velos.put(numSerie, velo);
-        return velo;
-      }
+      Velo velo = veloFactory.creerVelo(modele, numSerie, contientChambre,
+              puissanceBatterie, marqueVelo);
+      velo.getBatterie().setMarque(marqueBattrie);
+      velo.getPneuAr().setMarque(marquePneu);
+      velo.getPneuAv().setMarque(marquePneu);
+      velo.getPneuAv().setLargeur(largeurPneus);
+      velo.getPneuAr().setLargeur(largeurPneus);
+      velos.put(numSerie, velo);
+      return velo;
     }
     return null;
   }
+
   /**
    * Récupère un vélo par son numéro de série.
    *
@@ -73,39 +80,42 @@ public class GarageVelo implements Subject {
    * @return Le vélo si trouvé, sinon null.
    */
   public Velo obtenirVelo(Integer numSerie) {
-    return velos.get(numSerie);
+    return this.velos.get(numSerie);
   }
 
   /**
    * Met à jour la puissance et la marque de la batterie d'un vélo spécifique.
    *
-   * @param numSerie Le numéro de série du vélo à mettre à jour.
-   * @param nouvPuissance La nouvelle puissance de la batterie. Si null, la puissance n'est pas modifiée.
-   * @param nouvMarqueBatterie La nouvelle marque de la batterie. Si null, la marque n'est pas modifiée.
-   * @return true si la mise à jour a réussi, false si le vélo n'existe pas ou si les paramètres ne sont pas fournis.
+   * @param numSerie           Le numéro de série du vélo à mettre à jour.
+   * @param nouvPuissance      La nouvelle puissance de la batterie.
+   * @param nouvMarqueBatterie La nouvelle marque de la batterie.
+   * @return true si la mise à jour a réussi, false si le vélo n'existe pas.
    */
-  public boolean mettreAJourBatterieVelo(Integer numSerie, Integer nouvPuissance, String nouvMarqueBatterie) {
+  public boolean majBatterieVelo(Integer numSerie, Integer nouvPuissance, String nouvMarqueBatterie) {
     Velo velo = this.velos.get(numSerie);
-    if (velo != null){
+    if (velo != null) {
       velo.getBatterie().setPuissance(nouvPuissance);
       velo.getBatterie().setMarque(nouvMarqueBatterie);
       return true;
     }
     return false;
   }
+
   /**
    * Met à jour les caractéristiques du pneu avant d'un vélo spécifique.
    *
-   * @param numSerie Le numéro de série du vélo à mettre à jour.
-   * @param nouvContientChambre Indique si le nouveau pneu avant est tubeless. Si null, cette caractéristique n'est pas modifiée.
+   * @param numSerie            Le numéro de série du vélo à mettre à jour.
+   * @param nouvContientChambre Indique si le nouveau pneu avant est tubeless.
    * @return true si la mise à jour a réussi, false sinon.
    */
 
-  public boolean mettreAJourPneusAvant(Integer numSerie, Boolean nouvContientChambre) {
+  public boolean updatePneusAvant(Integer numSerie, Boolean nouvContientChambre, Integer largeurPneu, String marquePneu) {
     Velo velo = velos.get(numSerie);
     if (velo != null) {
-      if(nouvContientChambre != null) {
+      if (nouvContientChambre != null) {
         Pneu nouveauPneuAv = this.veloFactory.creerPneu(nouvContientChambre);
+        nouveauPneuAv.setMarque(marquePneu);
+        nouveauPneuAv.setLargeur(largeurPneu);
         velo.setPneuAv(nouveauPneuAv);
         return true;
       }
@@ -116,22 +126,22 @@ public class GarageVelo implements Subject {
   /**
    * Met à jour les caractéristiques du pneu arrière d'un vélo spécifique.
    *
-   * @param numSerie Le numéro de série du vélo à mettre à jour.
+   * @param numSerie            Le numéro de série du vélo à mettre à jour.
    * @param nouvContientChambre Indique si le nouveau pneu arrière est tubeless. Si null, cette caractéristique n'est pas modifiée.
    * @return true si la mise à jour a réussi, false sinon.
    */
 
-  public boolean mettreAJourPneusArriere(Integer numSerie, Boolean nouvContientChambre) {
+  public boolean updatePneusArriere(Integer numSerie, Boolean nouvContientChambre, Integer largeurPneu, String marquePneu) {
     Velo velo = velos.get(numSerie);
     if (velo != null) {
-      if( nouvContientChambre != null) {
-        Pneu nouveauPneuAr = this.veloFactory.creerPneu(nouvContientChambre);
-        velo.setPneuAr(nouveauPneuAr);
-        return true;
-      }
+      Pneu nouveauPneuAr = this.veloFactory.creerPneu(nouvContientChambre);
+      nouveauPneuAr.setLargeur(largeurPneu);
+      nouveauPneuAr.setMarque(marquePneu);
+      velo.setPneuAr(nouveauPneuAr);
     }
     return false;
   }
+
   /**
    * Supprime un vélo du garage.
    *
@@ -139,9 +149,9 @@ public class GarageVelo implements Subject {
    * @return true si le vélo a été supprimé, false sinon.
    */
   public Velo supprimerVelo(Integer numSerie) {
-    Velo v = this.velos.remove(numSerie) ;
-    if(v != null) {
-      this.veloFactory.setNbVelosCrees(this.veloFactory.getNbVelosCrees()-1);
+    Velo v = this.velos.remove(numSerie);
+    if (v != null) {
+      this.veloFactory.setNbVelosCrees(this.veloFactory.getNbVelosCrees() - 1);
     }
     return v;
   }
@@ -156,6 +166,14 @@ public class GarageVelo implements Subject {
     return VerifVelo.verifVelo(v);
   }
 
+  /**
+   * Charge une liste de vélos à partir d'un fichier JSON spécifié et les ajoute au garage.
+   * Cette méthode utilise {@link ListVelosFactory} pour lire et créer des objets Velo à partir du fichier JSON.
+   * Chaque vélo lu est ajouté au garage à condition que son numéro de série soit unique.
+   *
+   * @param cheminFichier Le chemin du fichier JSON à partir duquel les vélos seront chargés.
+   * @throws IOException Si une erreur se produit lors de la lecture du fichier.
+   */
   public void chargerVelosDepuisFichier(String cheminFichier) throws IOException {
     ListVelosFactory factory = new ListVelosFactory();
     List<Velo> velosLus = factory.creerVelosDepuisFichier(cheminFichier);
@@ -165,48 +183,62 @@ public class GarageVelo implements Subject {
       }
     }
   }
-  /**
-   * Affiche tous les vélos existant dans le garage.
-   * Méthode utiliser pour affichage des vélos avant la question 5  */
-
-  public void afficherListVelos(){
-    System.out.println("Liste de vélos : ");
-    for (Velo v : this.velos.values()){
-      v.afficherVelo();
-      System.out.println();
-    }
-  }
 
   /**
    * Affiche tous les vélos existant dans le garage.
-   * Méthode utiliser pour affichage des vélos après la question 5
+   * Méthode utiliser pour affichage des vélos aprés la question 5
+   *
    * @param visiteur le visiteur.
-   * @return rien.*/
+   */
 
-  public void afficherVelos(Visiteur visiteur){
-    for(Velo velo : this.velos.values()){
+  public void afficherVelos(Visiteur visiteur) {
+    for (Velo velo : this.velos.values()) {
       velo.accept(visiteur);
     }
   }
 
+  /**
+   * Retourne la carte des vélos présents dans le garage.
+   * La carte mappe les numéros de série des vélos à leurs instances correspondantes.
+   *
+   * @return Une Map associant les numéros de série des vélos à leurs instances.
+   */
   public Map<Integer, Velo> getVelos() {
     return this.velos;
   }
 
+  /**
+   * Ajoute un observateur à la liste des observateurs.
+   * Lorsque l'état du garage change, tous les observateurs ajoutés sont notifiés.
+   *
+   * @param o L'observateur à ajouter.
+   */
   @Override
   public void addObserver(Observer o) {
     this.observers.add(o);
   }
 
+  /**
+   * Supprime un observateur de la liste des observateurs.
+   * L'observateur supprimé ne recevra plus de notifications lorsque l'état du garage change.
+   *
+   * @param o L'observateur à supprimer.
+   */
   @Override
   public void removeObserver(Observer o) {
     this.observers.remove(o);
   }
 
+  /**
+   * Notifie tous les observateurs enregistrés d'un changement dans le garage.
+   * Cette méthode est généralement appelée après une modification de l'état du garage,
+   * comme l'ajout ou la suppression d'un vélo.
+   */
   @Override
   public void notifierObservateurs() {
-    for(Observer observer : observers){
+    for (Observer observer : observers) {
       observer.update();
     }
   }
+
 }

@@ -1,17 +1,29 @@
-package Modele;
+package modele;
 
 /**
  * Class Modele.Marque.
- * */
+ */
 public class Marque {
-  private String marque;
+
+  protected String marque;
+  //l'attribut est accessible dans la classe elle-même,
+  // dans toutes les classes qui en héritent (sous-classes),
+  // ainsi que dans toutes les classes du même paquet (package)
+
+  /**
+   * Constructeur Marque.
+   *
+   * @param marque La marque.
+   */
+
 
   public Marque(String marque) {
     this.marque = marque;
   }
-  private Marque(){
 
+  private Marque() {
   }
+
   public String getMarque() {
     return marque;
   }

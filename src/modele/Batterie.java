@@ -1,6 +1,7 @@
-package Modele;
+package modele;
 
-import Visiteur.Visiteur;
+import visiteur.Visiteur;
+
 /**
  * Classe représentant une batterie associée à une marque.
  * La classe hérite de la classe Modele.Marque pour associer chaque batterie à une marque spécifique.
@@ -12,12 +13,13 @@ public class Batterie extends Marque {
    * Constructeur.
    *
    * @param nomMarque nom de la marque de la batterie.
-   * */
+   */
 
   public Batterie(String nomMarque) {
     super(nomMarque);
   }
-  public Batterie(){
+
+  public Batterie() {
     super("");
 
   }
@@ -26,10 +28,9 @@ public class Batterie extends Marque {
     return this.puissance;
   }
 
-  public boolean setPuissance(Integer puissance) {
-    if(puissance == null) return false;
+
+  public void setPuissance(Integer puissance) {
     this.puissance = puissance;
-    return true;
   }
 
   public void accept(Visiteur visiteur) {
