@@ -100,7 +100,6 @@ public class Velo extends Marque implements Visitable {
   @Override
   public void accept(Visiteur visiteur) {
     visiteur.visitVelo(this);
-    // Assurez-vous également de visiter les composants du vélo
     this.batterie.accept(visiteur);
     this.pneuAv.accept(visiteur);
     this.pneuAr.accept(visiteur);

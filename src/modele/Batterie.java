@@ -1,12 +1,13 @@
 package modele;
 
+import visiteur.Visitable;
 import visiteur.Visiteur;
 
 /**
  * Classe représentant une batterie associée à une marque.
  * La classe hérite de la classe Modele.Marque pour associer chaque batterie à une marque spécifique.
  */
-public class Batterie extends Marque {
+public class Batterie extends Marque implements Visitable {
   private Integer puissance;
 
   /**

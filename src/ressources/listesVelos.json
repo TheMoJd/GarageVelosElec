@@ -2,37 +2,29 @@
   {
     "modele": "VTT Explorer",
     "numSerie": 1001,
-    "pneuAv": {
+    "pneu": {
       "largeur": 24,
-      "contientChambre": true,
-      "marque": "Michelin"
+      "hiver": false,
+      "marque": "Michelin",
+      "hauteur": 2.1
     },
-    "pneuAr": {
+    "pneu": {
       "largeur": 24,
-      "contientChambre": true,
-      "marque": "Michelin"
+      "hiver": false,
+      "marque": "Michelin",
+      "hauteur": 2.1
     },
-    "batterie": {
-      "puissance": 500,
-      "marque": "Duracell"
-    }
-  },
-  {
-    "modele": "Route Speedster",
-    "numSerie": 1002,
-    "pneuAv": {
-      "largeur": 22,
-      "contientChambre": false,
-      "marque": "Continental"
+    "pneu": {
+      "largeur": 24,
+      "hiver": false,
+      "marque": "Michelin",
+      "hauteur": 2.1
     },
-    "pneuAr": {
-      "largeur": 22,
-      "contientChambre": false,
-      "marque": "Continental"
-    },
-    "batterie": {
-      "puissance": 450,
-      "marque": "Energizer"
+    "pneu": {
+      "largeur": 24,
+      "hiver": false,
+      "marque": "Michelin",
+      "hauteur": 2.1
     }
   }
 ]
